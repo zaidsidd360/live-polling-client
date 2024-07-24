@@ -39,7 +39,7 @@ The Live Polling System is a web application designed to facilitate real-time po
 Check out the live version of the application at: [https://live-polling-client.onrender.com](https://live-polling-client.onrender.com)
 
 ## Project Structure
-project-root/
+project-root /
 
 ├── dist / # Compiled output for production
 
