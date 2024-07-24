@@ -41,19 +41,23 @@ Check out the live version of the application at: [https://live-polling-client.o
 ## Project Structure
 project-root /
 
-├── dist / # Compiled output for production
-
-├── node_modules / # Node.js modules
-
-├── public / # Static assets
-
-├── src / # Main entry point for source code
-
-├── vite.config.js # Vite configuration
-
-├── package.json # Project metadata and dependencies
-
-└── README.md # This file
+  ├── public /                
+  
+  ├── src /                    
+  
+  ├── .gitignore            
+  
+  ├── index.html              
+  
+  ├── package.json            
+  
+  ├── vite.config.js          
+  
+  ├── README.md              
+  
+  ├── node_modules /          
+  
+  └── dist /                  
 
 
 ## Key Features
