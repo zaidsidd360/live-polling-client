@@ -2,6 +2,8 @@
 
 **Live URL: [https://live-polling-client.onrender.com](https://live-polling-client.onrender.com)**
 
+**Also, check out the backend code repo [here](https://github.com/zaidsidd360/live-polling-server).**
+
 ## Overview
 
 The Live Polling System is a web application designed to facilitate real-time polling for educational purposes. It allows teachers to create and manage polls, and students to submit their responses. This system supports live polling with a single question at a time and provides instant feedback on poll results.
