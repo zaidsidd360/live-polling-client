@@ -20,7 +20,7 @@ The Live Polling System is a web application designed to facilitate real-time po
 
 - **Frontend**: 
   - **Vite**: For fast and efficient build processes and development.
-  - **React**: (Optional) For building interactive user interfaces. (Note: This may not be applicable if React is not used.)
+  - **React**: For building interactive user interfaces.
   - **Tailwind CSS**: For styling and responsive design.
   - **Axios**: For handling HTTP requests.
 
