@@ -3,6 +3,7 @@ import { FaTrash, FaCheckCircle, FaPoll, FaPlus } from "react-icons/fa";
 import { PollData } from "../../hooks/usePoll";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../ui/Button";
+import { toast } from "react-toastify";
 
 interface CreatePollProps {
 	pollData: PollData;
@@ -56,33 +57,25 @@ const CreatePoll: React.FC<CreatePollProps> = ({
 	};
 
 	const handleCreatePoll = async () => {
-		console.log("Poll Created:", {
-			question,
-			options,
-			correctOption,
-			duration,
-		});
-		// try {
-		// 	const response = await createPoll({
-		// 		question,
-		// 		options,
-		// 		duration,
-		// 		correctOption,
-		// 	});
-		// 	if (response !== undefined) {
-		// 		console.log("Poll created successfully");
-		// 	}
-		// 	navigate(`/results/teacher`);
-		// } catch (error) {
-		// 	// Handle error
-		// 	console.log(error);
-		// }
+		if (!question) {
+			toast.error("Question cannot be empty!");
+			return;
+		}
+
+		const validOptions = options.filter((option) => !!option);
+		if (validOptions.length < 2) {
+			toast.error(
+				"A poll requires at least two options! Extra empty options will be omitted."
+			);
+			return;
+		}
 		createPoll({
 			question,
-			options,
+			options: validOptions,
 			duration,
 			correctOption,
 		});
+		toast.success("Poll created successfully!");
 		navigate(`/results/teacher`);
 	};
 
@@ -102,16 +95,16 @@ const CreatePoll: React.FC<CreatePollProps> = ({
 					<div className="text-center text-lg text-red-400 mb-6">
 						A poll is already running. Please end that poll to
 						create another one.
-						<div className="mt-4 flex justify-center gap-4">
+						<div className="mt-4 flex flex-col gap-4 sm:flex-row sm:gap-6 sm:justify-center">
 							<Button
 								text="End Current Poll"
 								onClick={handleEndPoll}
-								className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-400"
+								className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-400 text-sm sm:text-base"
 							/>
 							<Link to={"/results"}>
 								<Button
 									text="View Live Results"
-									className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-500"
+									className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-500 text-sm sm:text-base"
 								/>
 							</Link>
 						</div>
@@ -180,7 +173,7 @@ const CreatePoll: React.FC<CreatePollProps> = ({
 									/>
 								</div>
 							))}
-							<div className="flex mb-6">
+							<div className="flex flex-col gap-2 sm:flex-row sm:gap-4 mb-6">
 								<input
 									type="text"
 									value={newOption}
@@ -193,11 +186,11 @@ const CreatePoll: React.FC<CreatePollProps> = ({
 								<Button
 									text="Add Option"
 									onClick={handleAddOption}
-									className={`ml-3 px-4 py-2 rounded-md ${
+									className={`lg:ml-3 px-4 py-2 rounded-md ${
 										newOption.trim()
 											? "bg-gray-700 text-gray-200 hover:bg-gray-600"
 											: "bg-gray-600 text-gray-400 cursor-not-allowed"
-									}`}
+									} text-sm sm:text-base`}
 									diabled={!newOption.trim()}
 								/>
 							</div>
@@ -225,18 +218,7 @@ const CreatePoll: React.FC<CreatePollProps> = ({
 							text="Create Poll"
 							icon={<FaPlus />}
 							onClick={handleCreatePoll}
-							className={`w-full text-gray-200 px-4 py-2 rounded-md ${
-								question.trim().length > 0 &&
-								options.some((opt) => opt.trim().length > 0)
-									? "bg-gray-700 text-gray-200 hover:bg-gray-600"
-									: "bg-gray-600 text-gray-400 cursor-not-allowed"
-							} flex items-center justify-center gap-2`}
-							diabled={
-								!(
-									question.trim().length > 0 &&
-									options.some((opt) => opt.trim().length > 0)
-								)
-							}
+							className={`w-full text-gray-200 px-4 py-2 rounded-md bg-gray-700 hover:bg-gray-600 flex items-center justify-center gap-2 text-sm sm:text-base`}
 						/>
 					</>
 				)}

@@ -1,8 +1,8 @@
-// src/components/Student/AnswerPoll.tsx
 import React, { useState, useEffect } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { PollData } from "../../hooks/usePoll";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface AnswerPollProps {
 	pollData: PollData;
@@ -41,6 +41,24 @@ const AnswerPoll: React.FC<AnswerPollProps> = ({ pollData, submitAnswer }) => {
 		return () => clearInterval(timer);
 	}, []);
 
+	useEffect(() => {
+		if (timeLeft === 0 && !hasSubmitted) {
+			handleAutomaticSubmit();
+		}
+	}, [timeLeft, hasSubmitted]);
+
+	const handleAutomaticSubmit = () => {
+		if (selectedOption === null) {
+			submitAnswer(name, -1);
+			setHasSubmitted(true);
+			toast.error("Time is up! No answer submitted.");
+		} else {
+			submitAnswer(name, selectedOption);
+			setHasSubmitted(true);
+			toast.warning("Time is up! Your selected answer was submitted.");
+		}
+	};
+
 	const handleNameSubmit = () => {
 		if (name.trim()) {
 			sessionStorage.setItem("studentName", name.trim());
@@ -48,21 +66,20 @@ const AnswerPoll: React.FC<AnswerPollProps> = ({ pollData, submitAnswer }) => {
 	};
 
 	const handleSubmit = () => {
+		if (selectedOption === null) {
+			toast.error("Please select an option to submit!");
+			return;
+		}
 		if (name && selectedOption !== null) {
 			submitAnswer(name, selectedOption);
 			setHasSubmitted(true);
+			toast.success("Answer submitted successfully!");
 		}
 	};
 
 	const handleViewResults = () => {
 		navigate(`/results/student`);
 	};
-
-	useEffect(() => {
-		if (timeLeft === 0 && !hasSubmitted) {
-			handleSubmit();
-		}
-	}, [timeLeft, hasSubmitted]);
 
 	if (!question) {
 		return (
@@ -189,8 +206,7 @@ const AnswerPoll: React.FC<AnswerPollProps> = ({ pollData, submitAnswer }) => {
 							<button
 								type="button"
 								onClick={handleSubmit}
-								className="w-full bg-gray-700 text-gray-200 px-4 py-2 rounded-md hover:bg-gray-600"
-								disabled={!name || selectedOption === null}
+								className="w-full bg-gray-700 text-gray-200 px-4 py-2 rounded-md hover:bg-gray-600 cursor-pointer"
 							>
 								Submit Answer
 							</button>

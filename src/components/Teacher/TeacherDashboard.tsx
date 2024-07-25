@@ -6,6 +6,7 @@ import { getAllPolls } from "../../api/poll.api";
 import Button from "../ui/Button";
 import PollModal from "../ui/PollModal";
 import PollCard from "../ui/PollCard";
+import { toast } from "react-toastify";
 
 interface TeacherDashboardProps {
 	pollData: PollData;
@@ -32,6 +33,7 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
 
 	const handleEndPoll = async () => {
 		endCurrentPoll();
+		toast.success("Poll ended successfully!");
 	};
 
 	const handleStartNewPoll = () => {
@@ -54,11 +56,11 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
 				<h1 className="text-3xl font-bold mb-6 text-center">
 					Teacher Dashboard (Past Polls)
 				</h1>
-				<div className="flex justify-between mb-6">
+				<div className="flex flex-col sm:flex-row justify-between mb-6 gap-4">
 					<Button
 						text="End Current Poll"
 						onClick={handleEndPoll}
-						className={`bg-red-500 text-white px-4 py-2 rounded-md flex items-center ${
+						className={`bg-red-500 text-white px-4 py-2 rounded-md flex items-center justify-center ${
 							!pollData.question?.length
 								? "opacity-50 cursor-not-allowed"
 								: "hover:bg-red-400"
@@ -69,7 +71,7 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
 					<Button
 						text="Start New Poll"
 						onClick={handleStartNewPoll}
-						className={`bg-green-500 text-white px-4 py-2 rounded-md flex items-center ${
+						className={`bg-green-500 text-white px-4 py-2 rounded-md flex items-center justify-center ${
 							pollData.question
 								? "opacity-50 cursor-not-allowed"
 								: "hover:bg-green-400"

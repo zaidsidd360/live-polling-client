@@ -33,7 +33,15 @@ const PollModal = ({
 					([student, answer]) => (
 						<li key={student} className="flex justify-between">
 							<span>{student}</span>
-							<span>{selectedPoll.options[answer]}</span>
+							<span
+								className={`${
+									answer === -1 ? "text-red-400" : ""
+								}`}
+							>
+								{answer === -1
+									? "Unanswered"
+									: selectedPoll.options[answer]}
+							</span>
 						</li>
 					)
 				)}

@@ -3,6 +3,7 @@ import { PollData } from "../hooks/usePoll";
 import { FaPoll } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "./ui/Button";
+import { toast } from "react-toastify";
 
 interface ViewResultsProps {
 	pollData: PollData;
@@ -27,6 +28,11 @@ const ViewResults: React.FC<ViewResultsProps> = ({
 
 	const handleEndPoll = async () => {
 		endCurrentPoll();
+		toast.success("Poll ended successfully!");
+	};
+
+	const handleGotoDashboard = () => {
+		navigate("/dashboard");
 	};
 
 	const resultsArray = options.map((_, index) => results?.[index] || 0);
@@ -73,11 +79,18 @@ const ViewResults: React.FC<ViewResultsProps> = ({
 							})}
 						</div>
 						{role === "teacher" && (
-							<Button
-								text="End Poll"
-								onClick={handleEndPoll}
-								className="w-full bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-400"
-							/>
+							<>
+								<Button
+									text="End Poll"
+									onClick={handleEndPoll}
+									className="w-full bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-400 my-2"
+								/>
+								<Button
+									text="Go to dashboard"
+									onClick={handleGotoDashboard}
+									className="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-400 my-2"
+								/>
+							</>
 						)}
 					</>
 				) : (
